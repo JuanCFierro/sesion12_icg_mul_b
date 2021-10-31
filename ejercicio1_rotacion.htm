@@ -1,9 +1,21 @@
 <canvas id='canvas' width=800 height=600>
 <script>
 
+function polygon(a,colorBorde,colorRelleno) { //a=[20,12,34,56,78,90,112,167,34,56]
+ctx.beginPath()
+ctx.strokeStyle = colorBorde;
+ctx.fillStyle = colorRelleno;
+ctx.moveTo(a[0],a[1])
+for (i=0; i<a.length; i+=2)
+ctx.lineTo(a[i], a[i+1]);
+ctx.closePath()
+ctx.stroke();
+ctx.fill();
+
+}
 
 function rotacionPunto(cxOb,cyOb,rot){
-var mr= [[Math.cos(r), -Math.sin(r)], [Math.sin(r), Math.cos(r)]] //Matriz de 2x2
+var mr= [[Math.cos(r), -Math.sin(r)], [Math.sin(r), Math.cos(r)]]       //Matriz de 2x2
 fill_cxOb = letra_e.length;
 c_cxOb = letra_e[0].length;
 fill_cyOb = r.length;
@@ -23,43 +35,51 @@ for (x=0; x < rotacion.length; x++) {
 return rotacion;
 }
 
-function rotacionObj (a,b){
-var c=[];
+	
+function RotacionDeObj(Func,Rot){
+var c = [];
 
-for (i=0; i<a.length; i+=2){   //Recorriendo los vertices del objeto
-var pr= rotacionPunto(a[i],a[i+1],r);  //Rotacion del vertice i/2
-c[i]=pr[i % 2==0 ? 0 : 1];
+var m= [Math.cos(Rot), -Math.sin(Rot),Math.sin(Rot), Math.cos(Rot)]
 
-}
+for (i=0; i < Func.length; i+=2){             //Recorriendo los vertices del objeto
+
+c[i]=(Func[i]*m[0]+Func[i+1]*m[1])            //Aplicando las multiplicaciones en pares
+c[i+1]=(Func[i]*m[2]+Func[i+1]*m[3])          //Aplicando las multiplicaciones en impares
+  
+  }
 
 return c;
-}
-
-function polygon(a,colorBorde,colorRelleno) { //a=[20,12,34,56,78,90,112,167,34,56]
-ctx.beginPath()
-ctx.strokeStyle = colorBorde;
-ctx.fillStyle = colorRelleno;
-ctx.moveTo(a[0],a[1])
-for (i=0; i<a.length; i+=2)
-ctx.lineTo(a[i], a[i+1]);
-ctx.closePath()
-ctx.stroke();
-ctx.fill();
 
 }
 
+	
 var canvas = document.getElementById('canvas')
-var ctx = canvas.getContext('2d');
+var ctx = canvas.getContext('2d');  
 
-var letra_e = [0,0, 0,50, 40,50, 40,40, 10,40, 10,30, 20,30, 20,20, 10,20, 10,10, 40,10, 40,0, 0,0 ];
+var letra_e = [0,0, 0,50, 40,50, 40,40, 10,40, 10,30, 20,30, 20,20, 10,20, 10,10, 40,10, 40,0, 0,0 ]; 
+//La dejo como esta pero se va a ver a la izquierda la rotacion sin que se 
+//Vea bien, por lo cual voy a crear otra letra e aumentando los valores
+//De X para que se vea mas a la derecha.
 
-var r= Math.PI/6;
-
-var letra_e_rotada = rotacionObj(letra_e, r);
-
-polygon (letra_e, 'red', 'red')
-polygon (letra_e_rotada, 'black' 'black')
-
+var letra_e_2 = [200,0, 200,50, 240,50, 240,40, 210,40, 210,30, 220,30, 220,20, 210,20, 210,10, 240,10, 240,0, 200,0 ]; 
+//Esta sera la letra E aumentada 200 a la derecha.
 
 
-</script> 
+var r = Math.PI/6;
+
+var letra_e_rotada = RotacionDeObj(letra_e, r)
+
+var letra_e_rotada_2 = RotacionDeObj(letra_e_2, r)
+
+polygon(letra_e, 'red','red') //Letra E original
+
+polygon(letra_e_rotada, 'black','black') //Rotacion Letra E original
+
+polygon(letra_e_2, 'pink','pink') //Letra E 200 a la derecha
+
+polygon(letra_e_rotada_2, 'brown','brown') // Rotacion Letra E 200 a la derecha
+
+
+
+
+</script>
