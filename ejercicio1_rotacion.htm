@@ -4,7 +4,23 @@
 
 function rotacionPunto(cxOb,cyOb,rot){
 var mr= [[Math.cos(r), -Math.sin(r)], [Math.sin(r), Math.cos(r)]] //Matriz de 2x2
-//Completar
+fill_cxOb = letra_e.length;
+c_cxOb = letra_e[0].length;
+fill_cyOb = r.length;
+c_cyOb = r[0].length;
+
+let rotacion = new Array(fill_cxOb);
+for (x=0; x<rotacion.length;x++)
+    Rotacion[x] = new Array(c_cyOb).fill(0);
+
+for (x=0; x < rotacion.length; x++) {
+        for (y=0; y < rotacion[x].length; y++) {                                
+            for (z=0; z<c_cxOb; z++) {
+                rotacion [x][y] = rotacion [x][y] + cxOb[x][z]*cyOb[z][y]; 
+}
+        }
+    }
+return rotacion;
 }
 
 function rotacionObj (a,b){
@@ -42,7 +58,8 @@ var r= Math.PI/6;
 var letra_e_rotada = rotacionObj(letra_e, r);
 
 polygon (letra_e, 'red', 'red')
-polygon (letra_e_rotada, 'blue', 'blue')
+polygon (letra_e_rotada, 'black' 'black')
+
 
 
 </script> 
